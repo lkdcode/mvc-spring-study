@@ -72,8 +72,6 @@
                     <button type="submit">주문하기</button>
                 </label>
 
-
-
             </form>
         </div>
     </div>
@@ -97,7 +95,6 @@
             const $priceTag = document.getElementById('price-tag');
             $priceTag.value = price;
             $priceTag.setAttribute('readonly', 'readonly');
-
         };
     </script>
 

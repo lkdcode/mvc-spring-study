@@ -15,12 +15,9 @@ public class CoffeeController {
      * @request - /coffee/order : GET
      * @response - /chap03/coffee-form.jsp
      */
-
     @GetMapping("/order")
     public String order() {
         System.out.println("/coffee/order : GET 요청 발생 !");
-
-
         return "chap03/coffee-form";
     }
 
@@ -28,7 +25,6 @@ public class CoffeeController {
      * @request - /coffee/result : POST
      * @response - /chap03/coffee-result.jsp
      */
-
     @PostMapping("/result")
     public String coffeeResult(String menu, @RequestParam(defaultValue = "3000") int price, Model model) {
         System.out.println("menu = " + menu);
