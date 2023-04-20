@@ -1,8 +1,9 @@
 package com.spring.mvc.chap04.repository;
 
+import com.spring.mvc.chap04.dto.ScoreRequestDTO;
 import com.spring.mvc.chap04.entity.Score;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
 
@@ -19,9 +20,13 @@ public class ScoreRepositoryImpl implements ScoreRepository {
 
     static {
         scoreMap = new HashMap<>();
-        Score stu1 = new Score("뽀로로", 100, 50, 70, ++sequence, 0, 0, A);
-        Score stu2 = new Score("춘식이", 33, 56, 12, ++sequence, 0, 0, A);
-        Score stu3 = new Score("대길이", 88, 12, 0, ++sequence, 0, 0, A);
+
+        Score stu1 = new Score(new ScoreRequestDTO("뽀로로", 100, 50, 70));
+        stu1.setStuNum(++sequence);
+        Score stu2 = new Score(new ScoreRequestDTO("춘식이", 33, 56, 12));
+        stu2.setStuNum(++sequence);
+        Score stu3 = new Score(new ScoreRequestDTO("대길이", 88, 12, 0));
+        stu3.setStuNum(++sequence);
 
         scoreMap.put(stu1.getStuNum(), stu1);
         scoreMap.put(stu2.getStuNum(), stu2);
@@ -29,11 +34,29 @@ public class ScoreRepositoryImpl implements ScoreRepository {
     }
 
     @Override
-    public List<Score> findAll() {
-        return new ArrayList<>(scoreMap.values())
-                .stream()
-                .sorted(Comparator.comparing(Score::getStuNum))
+    public List<Score> findAll(String sort) {
+        Comparator<Score> comparing;
+
+        switch (sort) {
+            case "name":
+                comparing = Comparator.comparing(Score::getName);
+                break;
+            case "avg":
+                comparing = Comparator.comparing(Score::getAverage);
+                break;
+            case "num":
+            default:
+                comparing = Comparator.comparing(Score::getStuNum);
+        }
+
+        return new ArrayList<>(scoreMap.values()).stream()
+                .sorted(comparing)
                 .collect(toList());
+    }
+
+    @Override
+    public List<Score> findAll() {
+        return new ArrayList<>(scoreMap.values());
     }
 
     @Override
@@ -41,7 +64,6 @@ public class ScoreRepositoryImpl implements ScoreRepository {
         if (scoreMap.containsKey(score.getStuNum())) return false;
         score.setStuNum(++sequence);
         scoreMap.put(score.getStuNum(), score);
-        System.out.println(findAll());
         return true;
     }
 
@@ -56,4 +78,5 @@ public class ScoreRepositoryImpl implements ScoreRepository {
     public Score findByStuNum(int stuNum) {
         return scoreMap.get(stuNum);
     }
+
 }

@@ -31,7 +31,8 @@ public class Score {
 
     private void calcTotalAndAvg() {
         this.total = this.kor + this.eng + this.math;
-        this.average = this.total / 3.0;
+        double result = this.total / 3.0;
+        this.average = Math.round(result * 100.0) / 100.0;
     }
 
     private void calcGrade() {
