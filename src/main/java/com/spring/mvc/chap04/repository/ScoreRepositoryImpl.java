@@ -20,13 +20,13 @@ public class ScoreRepositoryImpl implements ScoreRepository {
 
     static {
         scoreMap = new HashMap<>();
-
-        Score stu1 = new Score(new ScoreRequestDTO("뽀로로", 100, 50, 70));
-        stu1.setStuNum(++sequence);
-        Score stu2 = new Score(new ScoreRequestDTO("춘식이", 33, 56, 12));
-        stu2.setStuNum(++sequence);
-        Score stu3 = new Score(new ScoreRequestDTO("대길이", 88, 12, 0));
-        stu3.setStuNum(++sequence);
+        System.out.println(sequence);
+        Score stu1 = new Score(new ScoreRequestDTO("뽀로로", 100, 50, 70, ++sequence));
+        System.out.println(sequence);
+        Score stu2 = new Score(new ScoreRequestDTO("춘식이", 33, 56, 12, ++sequence));
+        System.out.println(sequence);
+        Score stu3 = new Score(new ScoreRequestDTO("대길이", 88, 12, 0, ++sequence));
+        System.out.println(sequence);
 
         scoreMap.put(stu1.getStuNum(), stu1);
         scoreMap.put(stu2.getStuNum(), stu2);
@@ -80,10 +80,13 @@ public class ScoreRepositoryImpl implements ScoreRepository {
     }
 
     @Override
-    public void modify(int stuNum, ScoreRequestDTO dto) {
+    public void modify(ScoreRequestDTO dto) {
         System.out.println("수정전 scoreMap = " + scoreMap);
-        scoreMap.put(stuNum, new Score(dto));
+        // 2번
+
+        scoreMap.put(dto.getStuNum(), new Score(dto)); // <- 0
         System.out.println("수정후 scoreMap = " + scoreMap);
+        // 2번
     }
 
 }

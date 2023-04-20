@@ -27,6 +27,6 @@ public interface ScoreRepository {
     // 성적 정보 개별 조회
     Score findByStuNum(int stuNum);
 
-    void modify(int stuNum, ScoreRequestDTO dto);
+    void modify(ScoreRequestDTO dto);
 
 }

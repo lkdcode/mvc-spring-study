@@ -96,18 +96,18 @@ public class ScoreController {
 
         return "chap04/score-modify";
     }
+    // get -> 데이터 베이스에 값이 변경이 되지 않는 행동들
+    // post -> 데이터 베이스에 값이 변경이 되는 행동들
+    // put -> 전체 데이터 베이스의 한 row 가 전체 바뀔 때
+    // patch -> 전체 데이터 베이스의 한 row 의 일부 데이터가 바뀔 때
+    // delete -> 전체 데이터 베이스의 한 row 를 전체 삭제할 때
 
     @PostMapping("/modify")
-    public String modify(int stuNum, ScoreRequestDTO dto) {
-        System.out.println();
-        System.out.println();
-        System.out.println(stuNum);
-        System.out.println(dto);
-        System.out.println();
-        System.out.println();
-        repository.modify(stuNum, dto);
+    public String modify(ScoreRequestDTO dto) {
 
-        return "redirect:/score/detail";
+        repository.modify(dto);
+
+        return "redirect:/score/detail?stuNum=" + dto.getStuNum();
     }
 
 
