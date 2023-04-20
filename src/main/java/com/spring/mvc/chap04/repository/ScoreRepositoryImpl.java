@@ -79,4 +79,11 @@ public class ScoreRepositoryImpl implements ScoreRepository {
         return scoreMap.get(stuNum);
     }
 
+    @Override
+    public void modify(int stuNum, ScoreRequestDTO dto) {
+        System.out.println("수정전 scoreMap = " + scoreMap);
+        scoreMap.put(stuNum, new Score(dto));
+        System.out.println("수정후 scoreMap = " + scoreMap);
+    }
+
 }

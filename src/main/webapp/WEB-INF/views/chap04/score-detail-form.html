@@ -29,6 +29,7 @@
             justify-content: center;
             align-items: center;
 
+            height: 200px;
         }
 
         #wrap .container .name {
@@ -64,7 +65,10 @@
                 <li># 평균: ??점</li>
                 <li># 학점: ?</li>
             </ul>
-            <button id="go-home" type="button">목록</button>
+            <div class="input">
+                <button id="go-home" type="button">목록</button>
+                <button id="update" type="button">수정</button>
+            </div>
         </div>
 
     </div>
@@ -74,6 +78,10 @@
         const $homeBtn = document.getElementById('go-home');
         $homeBtn.onclick = e => {
             window.location.href = '/score/list';
+        };
+
+        document.getElementById('update').onclick = e => {
+            window.location.href = '/score/update';
         };
     </script>
 

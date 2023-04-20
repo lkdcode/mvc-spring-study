@@ -58,7 +58,7 @@ public class ScoreController {
     @PostMapping("/register")
     public String register(ScoreRequestDTO dto) {
         // 입력데이터(쿼리스트링) 읽기
-        // dot(ScoreDTO) 를 entity(Score) 로 변환해야 함.
+        // dto(ScoreDTO) 를 entity(Score) 로 변환해야 함.
         // save 명령
         repository.save(new Score(dto));
         /*
@@ -84,11 +84,31 @@ public class ScoreController {
 
     // 4. 성적 정보 상세 조회 요청
     @GetMapping("/detail")
-    public String detail(@RequestParam int stuNum, Model model) {
-        Score score = repository.findByStuNum(stuNum);
-        model.addAttribute("student", score);
+    public String detail(int stuNum, Model model) {
+        model.addAttribute("student", repository.findByStuNum(stuNum));
 
         return "chap04/score-detail";
     }
+
+    @GetMapping("/inputModify")
+    public String inputModify(int stuNum, Model model) {
+        model.addAttribute("student", repository.findByStuNum(stuNum));
+
+        return "chap04/score-modify";
+    }
+
+    @PostMapping("/modify")
+    public String modify(int stuNum, ScoreRequestDTO dto) {
+        System.out.println();
+        System.out.println();
+        System.out.println(stuNum);
+        System.out.println(dto);
+        System.out.println();
+        System.out.println();
+        repository.modify(stuNum, dto);
+
+        return "redirect:/score/detail";
+    }
+
 
 }
