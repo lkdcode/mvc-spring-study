@@ -1,6 +1,7 @@
 .card-container {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .main-title-wrapper {
@@ -68,7 +69,7 @@
 }
 
 .card-container .card-wrapper:nth-child(3n - 2) .card-title-wrapper {
-    background: dodgerblue;
+    background: rgb(122, 163, 124);
 }
 
 .card-container .card-wrapper .card-title-wrapper .card-title {
@@ -105,7 +106,10 @@
     margin-right: 4px;
 }
 
-.card-container .card .card-content {}
+.card-container .card .card-content {
+    width: fit-content;
+    height: 1000px;
+}
 
 .card-container .card .card-content p {
     text-align: justify;

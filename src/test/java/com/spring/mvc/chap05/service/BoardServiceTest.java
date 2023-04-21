@@ -1,5 +1,7 @@
 package com.spring.mvc.chap05.service;
 
+import com.spring.mvc.chap05.dto.BoardListRequestDTO;
+import com.spring.mvc.chap05.dto.BoardWriteRequestDTO;
 import com.spring.mvc.chap05.entity.Board;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,7 +26,7 @@ class BoardServiceTest {
         // given
 
         // when
-        List<Board> boardList = service.findAll();
+        List<BoardListRequestDTO> boardList = service.findAll();
         // then
         assertEquals(3, boardList.size());
     }
@@ -35,7 +37,7 @@ class BoardServiceTest {
         // given
         int boardNo = 1;
         // when
-        Board board = service.findByBoardNo(boardNo);
+        BoardWriteRequestDTO board = service.findByBoardNo(boardNo);
         // then
         assertEquals("1번 게시글", board.getTitle());
     }

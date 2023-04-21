@@ -1,6 +1,6 @@
 package com.spring.mvc.chap05.controller;
 
-import com.spring.mvc.chap05.dto.BoardRequestDTO;
+import com.spring.mvc.chap05.dto.BoardWriteRequestDTO;
 import com.spring.mvc.chap05.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -26,7 +26,7 @@ public class BoardController {
     public String detail(int boardNo, Model model) {
         model.addAttribute("board", boardService.findByBoardNo(boardNo));
 
-        return "chap05/detail?boardNo" + boardNo;
+        return "chap05/detail";
     }
 
     @GetMapping("/write")
@@ -35,14 +35,13 @@ public class BoardController {
     }
 
     @PostMapping("/write")
-    public String write(BoardRequestDTO dto) {
+    public String write(BoardWriteRequestDTO dto) {
         boardService.write(dto);
         return "redirect:/board/list";
     }
 
     @GetMapping("/delete")
     public String delete(int boardNo) {
-        System.out.println("dddd");
         boardService.delete(boardNo);
         return "redirect:/board/list";
     }

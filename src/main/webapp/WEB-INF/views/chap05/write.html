@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- reset -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
+
+    <!-- fontawesome css: https://fontawesome.com -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+
+    <link rel="stylesheet" href="../../../../resources/static/assets/css/write.css">
+    <link rel="stylesheet" href="../../../../resources/static/assets/css/main.css">
+</head>
+
+<body>
+    <div id="wrap">
+
+        <div class="main-title-wrapper">
+            <h1 class="main-title">새 글 쓰기</h1>
+            <button class="add-btn">등록</button>
+        </div>
+
+        <div class="card-container">
+
+            <div class="card-wrapper">
+                <section class="card">
+                    <form action="/board/write" method="POST">
+                        <div class="card-title-wrapper">
+                            <h2 class="card-title"> <input type="text" class="content" value="제목을 입력하세요" name="title">
+                            </h2>
+                            <div class="time-view-wrapper">
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <p>
+                                <input type="text" class="content" value="내용을 입력하세요" name="content">
+                            </p>
+                        </div>
+                    </form>
+                </section>
+                <div class="card-btn-group">
+                    <button class="del-btn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+</body>
+
+</html>

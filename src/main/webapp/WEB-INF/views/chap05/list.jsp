@@ -20,6 +20,36 @@
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="stylesheet" href="/assets/css/list.css">
 
+    <style>
+        a {
+          font-weight: bold;
+          font-size: 2rem;
+          display: block;
+          margin: 20px;
+        }
+        a {
+          all: unset;
+        }
+        a:link {
+          text-decoration: none;
+          color: #3f464d;
+        }
+        a:visited {
+          text-decoration: none;
+          color: #3f464d;
+        }
+        a:active {
+          text-decoration: none;
+          color: #3f464d;
+        }
+        a:hover {
+          text-decoration: none;
+          color: tomato;
+          cursor: pointer;
+        }
+      </style>
+  
+
 </head>
 
 <body>
@@ -35,11 +65,12 @@
 
             <c:forEach var="b" items="${boardList}">
                 <div class="card-wrapper">
-                    <section class="card">
+                    <a href="/board/detail?boardNo=${b.boardNo}">
+                    <section class="card" data-bno="${b.boardNo}" name="boardNo" value="${b.boardNo}">
                         <div class="card-title-wrapper">
-                            <h2 class="card-title">${b.title}</h2>
+                            <h2 class="card-title">${b.shortTitle}</h2>
                             <div class="time-view-wrapper">
-                                <div class="time"><i class="far fa-clock"></i>${b.getTime()}</div>
+                                <div class="time"><i class="far fa-clock"></i>${b.date}</div>
                                 <div class="view">
                                     <i class="fas fa-eye"></i>
                                     <span class="view-count">${b.viewCount}</span>
@@ -48,103 +79,26 @@
                         </div>
                         <div class="card-content">
                             <p>
-                                ${b.content}
+                                ${b.shortContent}
                             </p>
                         </div>
                     </section>
+                </a>
                     <div class="card-btn-group">
+                        <a href="/board/delete?boardNo=${b.boardNo}">
                         <button class="del-btn">
                             <i class="fas fa-times"></i>
                         </button>
+                    </a>
+
                     </div>
                 </div>
-
 
             </c:forEach>
-
-
-
-            <div class="card-wrapper">
-                <section class="card">
-                    <div class="card-title-wrapper">
-                        <h2 class="card-title">룰루랄라~~1</h2>
-                        <div class="time-view-wrapper">
-                            <div class="time"><i class="far fa-clock"></i>2023-04-14 12:50</div>
-                            <div class="view">
-                                <i class="fas fa-eye"></i>
-                                <span class="view-count">15</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <p>
-                            어쩌구 저쩌구 .... (30자 후 줄임처리)
-                        </p>
-                    </div>
-                </section>
-                <div class="card-btn-group">
-                    <button class="del-btn">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            </div>
-
-            <div class="card-wrapper">
-                <section class="card">
-                    <div class="card-title-wrapper">
-                        <h2 class="card-title">룰루랄라~~2</h2>
-                        <div class="time-view-wrapper">
-                            <div class="time"><i class="far fa-clock"></i>2023-04-14 12:50</div>
-                            <div class="view">
-                                <i class="fas fa-eye"></i>
-                                <span class="view-count">15</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <p>
-                            어쩌구 저쩌구 .... (30자 후 줄임처리)
-                        </p>
-                    </div>
-                </section>
-                <div class="card-btn-group">
-                    <button class="del-btn">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            </div>
-
-
-            <div class="card-wrapper">
-                <section class="card">
-                    <div class="card-title-wrapper">
-                        <h2 class="card-title">룰루랄라~~</h2>
-                        <div class="time-view-wrapper">
-                            <div class="time"><i class="far fa-clock"></i>2023-04-14 12:50</div>
-                            <div class="view">
-                                <i class="fas fa-eye"></i>
-                                <span class="view-count">15</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <p>
-                            어쩌구 저쩌구 .... (30자 후 줄임처리)
-                        </p>
-                    </div>
-                </section>
-                <div class="card-btn-group">
-                    <button class="del-btn">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            </div>
 
         </div>
 
     </div>
-
-
 
     <script>
         function removeDown(e) {
@@ -197,6 +151,7 @@
         document.querySelector('.add-btn').onclick = e => {
             window.location.href = '/board/write';
         };
+
 
     </script>
 
