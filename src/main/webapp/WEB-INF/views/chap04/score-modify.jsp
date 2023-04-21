@@ -96,6 +96,7 @@
                     <div class="input">
                         <label>
                             <button type="submit">수정하기</button>
+                            <button type="button" onclick="history.back()">이전으로</button>
                         </label>
                     </div>
                 </form>

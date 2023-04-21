@@ -1,11 +1,10 @@
 package com.spring.mvc.chap04.controller;
 
+import com.spring.mvc.chap04.dto.ScoreListResponseDTO;
 import com.spring.mvc.chap04.dto.ScoreRequestDTO;
 import com.spring.mvc.chap04.entity.Score;
 import com.spring.mvc.chap04.repository.ScoreRepository;;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * # 요청 URL
@@ -49,7 +50,15 @@ public class ScoreController {
     @GetMapping("/list")
     public String list(Model model, @RequestParam(defaultValue = "num") String sort) {
         List<Score> scoreList = repository.findAll(sort);
-        model.addAttribute("sList", scoreList);
+
+        // scoreList 에서 원하는 정보만 추출하고 이름을 마스킹해서
+        // 다시 DTO 리스트로 변환해줘야 한다.
+        List<ScoreListResponseDTO> responseDTOList =
+                scoreList.stream()
+                        .map(ScoreListResponseDTO::new)
+                        .collect(Collectors.toList());
+
+        model.addAttribute("sList", responseDTOList);
 
         return "chap04/score-list";
     }
@@ -85,14 +94,14 @@ public class ScoreController {
     // 4. 성적 정보 상세 조회 요청
     @GetMapping("/detail")
     public String detail(int stuNum, Model model) {
-        model.addAttribute("student", repository.findByStuNum(stuNum));
+        retrieve(stuNum, model);
 
         return "chap04/score-detail";
     }
 
     @GetMapping("/inputModify")
     public String inputModify(int stuNum, Model model) {
-        model.addAttribute("student", repository.findByStuNum(stuNum));
+        retrieve(stuNum, model);
 
         return "chap04/score-modify";
     }
@@ -104,11 +113,13 @@ public class ScoreController {
 
     @PostMapping("/modify")
     public String modify(ScoreRequestDTO dto) {
-
         repository.modify(dto);
 
         return "redirect:/score/detail?stuNum=" + dto.getStuNum();
     }
 
+    private void retrieve(int stuNum, Model model) {
+        model.addAttribute("student", repository.findByStuNum(stuNum));
+    }
 
 }
