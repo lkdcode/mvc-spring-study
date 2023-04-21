@@ -27,7 +27,6 @@ public class BoardService {
     }
 
     public BoardWriteRequestDTO findByBoardNo(int boardNo) {
-
         return new BoardWriteRequestDTO(boardRepository.findByBoardNo(boardNo));
     }
 

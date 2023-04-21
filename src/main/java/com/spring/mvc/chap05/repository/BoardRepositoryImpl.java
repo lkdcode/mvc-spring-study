@@ -3,6 +3,7 @@ package com.spring.mvc.chap05.repository;
 import com.spring.mvc.chap05.entity.Board;
 import org.springframework.stereotype.Repository;
 
+import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
