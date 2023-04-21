@@ -1,9 +1,9 @@
 package com.spring.mvc.chap04.controller;
 
-import com.spring.mvc.chap04.dto.ScoreListResponseDTO;
 import com.spring.mvc.chap04.dto.ScoreRequestDTO;
 import com.spring.mvc.chap04.entity.Score;
 import com.spring.mvc.chap04.repository.ScoreRepository;;
+import com.spring.mvc.chap04.service.ScoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,10 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * # 요청 URL
@@ -36,8 +32,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor // : final 필드만 초기화하는 생성자
 public class ScoreController {
 
-    // 저장소에 의존해야 데이터를 받아서 클라이언트에게 응답할 수 있음
-    private final ScoreRepository repository;
+    // 저장소에 의존해야 데이터를 받아서 클라이언트에게 응답할 수 있음 --> 삭제
+    private final ScoreService scoreService;
 
     // 만약에 클래스의 생성자가 단 1개라면
     // 자동으로 @Autowired 를 써줌
@@ -49,16 +45,7 @@ public class ScoreController {
     // 1. 성적등록화면 띄우기 + 정보목록조회
     @GetMapping("/list")
     public String list(Model model, @RequestParam(defaultValue = "num") String sort) {
-        List<Score> scoreList = repository.findAll(sort);
-
-        // scoreList 에서 원하는 정보만 추출하고 이름을 마스킹해서
-        // 다시 DTO 리스트로 변환해줘야 한다.
-        List<ScoreListResponseDTO> responseDTOList =
-                scoreList.stream()
-                        .map(ScoreListResponseDTO::new)
-                        .collect(Collectors.toList());
-
-        model.addAttribute("sList", responseDTOList);
+        model.addAttribute("sList", scoreService.getList(sort));
 
         return "chap04/score-list";
     }
@@ -69,7 +56,7 @@ public class ScoreController {
         // 입력데이터(쿼리스트링) 읽기
         // dto(ScoreDTO) 를 entity(Score) 로 변환해야 함.
         // save 명령
-        repository.save(new Score(dto));
+        scoreService.insertScore(dto);
         /*
             등록 요청에서 JSP 뷰 포워딩을 하면
             갱신된 목록을 다시 한 번 저장소에서 불러와
@@ -86,7 +73,7 @@ public class ScoreController {
     // 3. 성적 정보 삭제 요청
     @GetMapping("/remove")
     public String remove(@RequestParam int stuNum) {
-        repository.deleteByStuNum(stuNum);
+        scoreService.delete(stuNum);
 
         return "redirect:/score/list";
     }
@@ -113,13 +100,13 @@ public class ScoreController {
 
     @PostMapping("/modify")
     public String modify(ScoreRequestDTO dto) {
-        repository.modify(dto);
+        scoreService.modify(dto);
 
         return "redirect:/score/detail?stuNum=" + dto.getStuNum();
     }
 
     private void retrieve(int stuNum, Model model) {
-        model.addAttribute("student", repository.findByStuNum(stuNum));
+        model.addAttribute("student", scoreService.retrieve(stuNum));
     }
 
 }
