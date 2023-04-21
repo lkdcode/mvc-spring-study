@@ -32,6 +32,38 @@
         </div>
 
         <div class="card-container">
+
+            <c:forEach var="b" items="${boardList}">
+                <div class="card-wrapper">
+                    <section class="card">
+                        <div class="card-title-wrapper">
+                            <h2 class="card-title">${b.title}</h2>
+                            <div class="time-view-wrapper">
+                                <div class="time"><i class="far fa-clock"></i>${b.getTime()}</div>
+                                <div class="view">
+                                    <i class="fas fa-eye"></i>
+                                    <span class="view-count">${b.viewCount}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <p>
+                                ${b.content}
+                            </p>
+                        </div>
+                    </section>
+                    <div class="card-btn-group">
+                        <button class="del-btn">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+
+
+            </c:forEach>
+
+
+
             <div class="card-wrapper">
                 <section class="card">
                     <div class="card-title-wrapper">
@@ -141,6 +173,11 @@
 
             const $delBtn = e.target.closest('.card-wrapper')?.querySelector('.del-btn');
             $delBtn.style.opacity = '1';
+
+            // delete button event
+            documnet.querySelector('.del-btn').onclick = ev => {
+            window.location.href = '/board/write';
+        };
         }
 
         $cardContainer.onmousedown = e => {
@@ -158,7 +195,7 @@
 
         // write button event
         document.querySelector('.add-btn').onclick = e => {
-            window.location.href = '/card/write';
+            window.location.href = '/board/write';
         };
 
     </script>

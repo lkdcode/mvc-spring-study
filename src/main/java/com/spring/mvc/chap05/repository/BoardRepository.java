@@ -10,13 +10,13 @@ public interface BoardRepository {
     List<Board> findAll();
 
     // 게시물 상세 조회
-    Board findOne(int boardNo);
+    Board findByBoardNo(int boardNo);
 
     // 게시물 등록
     boolean save(Board board);
 
     // 게시물 삭제
-    boolean deleteByNo(int boardNo);
+    boolean delete(int boardNo);
 
     /**
      *  추가 기능...
