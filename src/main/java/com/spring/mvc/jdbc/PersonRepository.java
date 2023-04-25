@@ -2,10 +2,9 @@ package com.spring.mvc.jdbc;
 
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class PersonRepository {
@@ -171,6 +170,70 @@ public class PersonRepository {
             }
         }
 
+    }
+
+
+    // 사람 정보 전체 조회
+    public List<Person> findAll() {
+        List<Person> people = new ArrayList<>();
+
+        // try - with - resource : close 자동화 (AutoClosable)
+        try (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD)) {
+
+            conn.setAutoCommit(false);
+
+            String sql = "SELECT * FROM person";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                // 포인터 커서로 첫번째 행부터 next 호출시마다 매 다음 행을 지목
+                // 위치한 커서에서 데이터 추출
+                people.add(new Person(
+                        rs.getLong("id"),
+                        rs.getString("person_name"),
+                        rs.getInt("person_age")
+                ));
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return people;
+    }
+
+
+    // 사람 정보 개별 조회
+    public Person findOne(long id) {
+        Person people = null;
+
+        // try - with - resource : close 자동화 (AutoClosable)
+        try (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD)) {
+            conn.setAutoCommit(false);
+
+            String sql = "SELECT * FROM person WHERE id=?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, id);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                people = new Person(
+                        rs.getInt("id"),
+                        rs.getString("person_name"),
+                        rs.getInt("person_age")
+                );
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return people;
     }
 
 

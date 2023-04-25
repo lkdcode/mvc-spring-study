@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -18,8 +20,8 @@ class PersonRepositoryTest {
 
         // given
         Person person = new Person();
-        person.setPersonName("뽀로로");
-        person.setPersonAge(90);
+        person.setPersonName("라이언");
+        person.setPersonAge(87);
 
         // when
         repository.save(person);
@@ -53,6 +55,28 @@ class PersonRepositoryTest {
         repository.remove(id);
 
 
+        // then
+    }
+
+
+    @Test
+    @DisplayName("전체 조회를 한다.")
+    void find_all_test() {
+        // given
+        repository.findAll().forEach(System.out::println);
+
+        // when
+        // then
+    }
+
+
+    @Test
+    @DisplayName("한 명을 조회한다.")
+    void find_one_test() {
+        // given
+        Person p = repository.findOne(3L);
+        System.out.println("p = " + p);
+        // when
         // then
     }
 
