@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository("jdbc")
@@ -32,7 +34,25 @@ public class ScoreJdbcRepository implements ScoreRepository {
 
     @Override
     public List<Score> findAll(String sort) {
-        return ScoreRepository.super.findAll(sort);
+        List<Score> scoreList = new ArrayList<>();
+
+        try (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD)) {
+
+            String sql = "SELECT * FROM tbl_score";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                scoreList.add(new Score(rs));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return scoreList;
     }
 
     @Override
@@ -71,16 +91,78 @@ public class ScoreJdbcRepository implements ScoreRepository {
 
     @Override
     public boolean deleteByStuNum(int stuNum) {
-        return false;
+        try (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD)) {
+
+            conn.setAutoCommit(false);
+            String sql = "DELETE FROM tbl_score WHERE stu_num = ?";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, stuNum);
+
+            int result = pstmt.executeUpdate();
+
+            if (result > 0) {
+                conn.commit();
+                return true;
+            } else {
+                conn.rollback();
+                return false;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 
     @Override
     public Score findByStuNum(int stuNum) {
+
+        try (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD)) {
+
+            conn.setAutoCommit(false);
+            String sql = "SELECT * FROM tbl_score WHERE stu_num = ?";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, stuNum);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) return new Score(rs);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 
     @Override
     public void modify(ScoreRequestDTO dto) {
+        // boolean
+        try (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD)) {
 
+            conn.setAutoCommit(false);
+            String sql = "UPDATE tbl_score SET kor = ?, eng = ?, math = ?, WHERE stu_num = ?";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            int result = pstmt.executeUpdate();
+
+
+            if (result > 0) {
+                conn.commit();
+//                return true;
+            } else {
+                conn.rollback();
+                // return false;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // return false;
+        }
+
+        // return false;
     }
 }

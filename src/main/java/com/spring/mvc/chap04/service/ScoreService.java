@@ -35,11 +35,10 @@ public class ScoreService {
         컨트롤러는 정보를 일부만 받았으면 좋겠다.
      */
     public List<ScoreListResponseDTO> getList(String sort) {
-//        return scoreRepository.findAll(sort)
-//                .stream()
-//                .map(ScoreListResponseDTO::new)
-//                .collect(toList());
-        return null;
+        return scoreRepository.findAll(sort)
+                .stream()
+                .map(ScoreListResponseDTO::new)
+                .collect(toList());
     }
 
     // 등록 중간 처리
