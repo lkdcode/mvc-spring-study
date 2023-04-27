@@ -23,7 +23,7 @@ public class ScoreService {
     private final ScoreRepository scoreRepository;
 
     @Autowired
-    public ScoreService(@Qualifier("jdbc") ScoreRepository scoreRepository) {
+    public ScoreService(@Qualifier("spring") ScoreRepository scoreRepository) {
         this.scoreRepository = scoreRepository;
     }
 
@@ -34,12 +34,20 @@ public class ScoreService {
         그런데 데이터 베이스는 성적정보를 전부 모아서 준다.
         컨트롤러는 정보를 일부만 받았으면 좋겠다.
      */
+//    public List<ScoreListResponseDTO> getList(String sort) {
+//        return scoreRepository.findAll(sort)
+//                .stream()
+//                .map(ScoreListResponseDTO::new)
+//                .collect(toList());
+//    }
+
     public List<ScoreListResponseDTO> getList(String sort) {
         return scoreRepository.findAll(sort)
                 .stream()
                 .map(ScoreListResponseDTO::new)
                 .collect(toList());
     }
+
 
     // 등록 중간 처리
     // 컨트롤러는 나에게 DTO 를 줬지만
