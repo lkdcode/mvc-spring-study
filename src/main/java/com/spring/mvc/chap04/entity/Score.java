@@ -14,6 +14,7 @@ import static com.spring.mvc.chap04.entity.Grade.*;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Score {
     private String name; // 학생 이름
     private int kor, eng, math; // 국, 영, 수 점수
