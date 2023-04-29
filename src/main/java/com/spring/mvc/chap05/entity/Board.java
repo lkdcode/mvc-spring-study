@@ -17,6 +17,13 @@ public class Board {
     private String content; // 내용
     private int viewCount; // 조회수
     private LocalDateTime regDateTime; // 작성 일자 시간
+//    CREATE TABLE tbl_board (
+//	board_no INT(10) AUTO_INCREMENT PRIMARY KEY,
+//	title VARCHAR(80) NOT NULL,
+//	content VARCHAR(2000),
+//	view_count INT(10) DEFAULT 0,
+//	reg_date_time DATETIME DEFAULT CURRENT_TIMESTAMP
+//);
 
     public Board(int boardNo, String title, String content) {
         this.boardNo = boardNo;

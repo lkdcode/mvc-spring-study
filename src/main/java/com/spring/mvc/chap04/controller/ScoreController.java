@@ -1,8 +1,6 @@
 package com.spring.mvc.chap04.controller;
 
 import com.spring.mvc.chap04.dto.ScoreRequestDTO;
-import com.spring.mvc.chap04.entity.Score;
-import com.spring.mvc.chap04.repository.ScoreRepository;;
 import com.spring.mvc.chap04.service.ScoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
