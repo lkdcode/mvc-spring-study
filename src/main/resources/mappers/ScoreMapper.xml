@@ -22,10 +22,19 @@
     <!--    <resultMap id="student" type="com.spring.mvc.chap04.entity.Score">-->
     <!--        <result property="stuNum" column="stu_num"/>-->
     <!--    </resultMap>-->
-
+    <!-- 동적 sql -->
     <select id="findAll" resultType="score">
         SELECT *
-        FROM tbl_score
+        FROM tbl_score1
+        <if test="sort == 'num'">
+            ORDER BY stu_num
+        </if>
+        <if test="sort == 'name'">
+            ORDER BY name
+        </if>
+        <if test="sort == 'avg'">
+            ORDER BY average DESC
+        </if>
     </select>
 
     <!--    Score findByStuNum(int stuNum);-->
