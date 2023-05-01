@@ -108,11 +108,11 @@
             <!-- 페이지 버튼 영역 -->
             <nav aria-label="Page navigation example">
                 <ul class="pagination pagination-lg pagination-custom">
-
+                    <c:if test="${maker.page.pageNo != 1}">
                         <li class="page-item">
                             <a class="page-link" href="/board/list?pageNo=${maker.getStartPage()}">시작으로</a>
                         </li>
-                    
+                    </c:if>
                     <c:if test="${maker.prev}">
                         <li class="page-item"><a class="page-link" href="/board/list?pageNo=${maker.begin - 1}">prev</a></li>
                     </c:if>
@@ -128,14 +128,15 @@
                         <li class="page-item"><a class="page-link" href="/board/list?pageNo=${maker.end + 1}">next</a></li>
                     </c:if>
 
+                    <c:if test="${maker.getEndPage() != maker.page.pageNo}">
                         <li class="page-item">
                             <a class="page-link" href="/board/list?pageNo=${maker.getEndPage()}">끝으로</a>
                         </li>
-
+                    </c:if>
+                    
                         <li class="page-item">
                             <a class="page-link" href="/board/list?pageNo=${maker.getRandomPage()}">랜덤페이지</a>
                         </li>
-                    
                 </ul>
             </nav>
 
