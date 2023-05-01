@@ -22,4 +22,6 @@ public interface BoardMapper {
     // 게시물 삭제
     boolean delete(int boardNo);
 
+    // 총 게시물 수 조회하기
+    int count();
 }

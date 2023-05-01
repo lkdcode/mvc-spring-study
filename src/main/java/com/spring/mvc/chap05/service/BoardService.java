@@ -43,4 +43,8 @@ public class BoardService {
     public boolean write(BoardWriteRequestDTO dto) {
         return boardRepository.save(new Board(dto));
     }
+
+    public int getCount() {
+        return boardRepository.count();
+    }
 }

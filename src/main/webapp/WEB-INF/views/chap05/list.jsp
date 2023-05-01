@@ -17,8 +17,12 @@
     <!-- fontawesome css: https://fontawesome.com -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
 
+    <!-- bootstrap css -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="stylesheet" href="/assets/css/list.css">
+
 
     <style>
         a {
@@ -98,6 +102,41 @@
 
         </div>
 
+            <!-- 게시글 목록 하단 영역 -->
+        <div class="bottom-section">
+
+            <!-- 페이지 버튼 영역 -->
+            <nav aria-label="Page navigation example">
+                <ul class="pagination pagination-lg pagination-custom">
+
+                        <li class="page-item">
+                            <a class="page-link" href="/board/list?pageNo=${maker.getStartPage()}">시작으로</a>
+                        </li>
+                    
+                    <c:if test="${maker.prev}">
+                        <li class="page-item"><a class="page-link" href="/board/list?pageNo=${maker.begin - 1}">prev</a></li>
+                    </c:if>
+
+                    <c:forEach var="i" begin="${maker.begin}" end="${maker.end}">
+                        <li data-page-num="${i}" class="page-item">
+                            <a class="page-link" href="/board/list?pageNo=${i}">${i}</a>
+                        </li>
+                    </c:forEach>
+
+
+                    <c:if test="${maker.next}">
+                        <li class="page-item"><a class="page-link" href="/board/list?pageNo=${maker.end + 1}">next</a></li>
+                    </c:if>
+
+                        <li class="page-item">
+                            <a class="page-link" href="/board/list?pageNo=${maker.getEndPage()}">끝으로</a>
+                        </li>
+                    
+                </ul>
+            </nav>
+
+        </div>
+
     </div>
 
     <script>
@@ -170,62 +209,56 @@
         document.querySelector('.add-btn').onclick = e => {
             window.location.href = '/board/write';
         };
+
+
+
+
+        //현재 위치한 페이지에 active 스타일 부여하기
+        function appendPageActive() {
+
+            // 현재 내가 보고 있는 페이지 넘버
+            const curPageNum = '${maker.page.pageNo}';
+            // console.log("현재페이지: ", curPageNum);
+
+            // 페이지 li태그들을 전부 확인해서 
+            // 현재 위치한 페이지 넘버와 텍스트컨텐츠가 일치하는
+            // li를 찾아서 class active 부여
+            const $ul = document.querySelector('.pagination');
+
+            for (let $li of [...$ul.children]) {
+                if (curPageNum === $li.dataset.pageNum) {
+                    $li.classList.add('active');
+                    break;
+                }
+            }
+
+        }
+
+        appendPageActive();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </script>
-
-    <!-- <script>
-        function removeDown(e) {
-            if (!e.target.matches('.card-container *')) return;
-            const $targetCard = e.target.closest('.card-wrapper');
-            $targetCard?.removeAttribute('id', 'card-down');
-        }
-
-        function removeHover(e) {
-            if (!e.target.matches('.card-container *')) return;
-            const $targetCard = e.target.closest('.card');
-            $targetCard?.classList.remove('card-hover');
-
-            const $delBtn = e.target.closest('.card-wrapper')?.querySelector('.del-btn');
-            $delBtn.style.opacity = '0';
-        }
-
-        const $cardContainer = document.querySelector('.card-container');
-
-        $cardContainer.onmouseover = e => {
-
-            if (!e.target.matches('.card-container *')) return;
-
-            const $targetCard = e.target.closest('.card');
-            $targetCard?.classList.add('card-hover');
-
-            const $delBtn = e.target.closest('.card-wrapper')?.querySelector('.del-btn');
-            $delBtn.style.opacity = '1';
-
-            // delete button event
-            documnet.querySelector('.del-btn').onclick = ev => {
-            window.location.href = '/board/write';
-        };
-        }
-
-        $cardContainer.onmousedown = e => {
-
-            if (!e.target.matches('.card-container *')) return;
-
-            const $targetCard = e.target.closest('.card-wrapper');
-            $targetCard?.setAttribute('id', 'card-down');
-        };
-
-        $cardContainer.onmouseup = removeDown;
-
-        $cardContainer.addEventListener('mouseout', removeDown);
-        $cardContainer.addEventListener('mouseout', removeHover);
-
-        // write button event
-        document.querySelector('.add-btn').onclick = e => {
-            window.location.href = '/board/write';
-        };
-
-
-    </script> -->
 
 </body>
 

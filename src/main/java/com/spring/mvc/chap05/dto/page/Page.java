@@ -26,4 +26,21 @@ public class Page {
 
         return (pageNo - 1) * amount;
     }
+
+    public void setPageNo(int pageNo) {
+        if (pageNo < 1 || pageNo > Integer.MAX_VALUE) {
+            this.pageNo = 1;
+            return;
+        }
+        this.pageNo = pageNo;
+    }
+
+    public void setAmount(int amount) {
+        if (amount < 6 || amount > 10) {
+            this.amount = 6;
+            return;
+        }
+
+        this.amount = amount;
+    }
 }
