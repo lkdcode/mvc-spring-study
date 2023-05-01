@@ -131,6 +131,10 @@
                         <li class="page-item">
                             <a class="page-link" href="/board/list?pageNo=${maker.getEndPage()}">끝으로</a>
                         </li>
+
+                        <li class="page-item">
+                            <a class="page-link" href="/board/list?pageNo=${maker.getRandomPage()}">랜덤페이지</a>
+                        </li>
                     
                 </ul>
             </nav>

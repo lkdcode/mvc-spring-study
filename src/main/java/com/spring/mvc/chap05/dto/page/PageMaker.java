@@ -3,6 +3,9 @@ package com.spring.mvc.chap05.dto.page;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+
 @Getter
 @ToString
 public class PageMaker {
@@ -38,6 +41,16 @@ public class PageMaker {
 
     public int getEndPage() {
         return (totalCount / page.getAmount()) + (totalCount % page.getAmount());
+    }
+
+    public int getRandomPage() {
+        try {
+            return (int) (SecureRandom.getInstanceStrong().nextDouble() * getEndPage()) + getStartPage();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        return (int) (Math.random() * getEndPage()) + getStartPage();
     }
 
     // 페이지 계산 알고리즘
