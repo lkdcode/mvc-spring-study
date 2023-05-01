@@ -33,6 +33,6 @@
     <!--    boolean delete(int boardNo);-->
     <insert id="delete">
         DELETE FROM tbl_board
-        WHERE board_id = #{boardNo}
+        WHERE board_no = #{boardNo}
     </insert>
 </mapper>
