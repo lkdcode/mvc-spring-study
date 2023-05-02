@@ -61,8 +61,32 @@
     <div id="wrap">
 
         <div class="main-title-wrapper">
-            <h1 class="main-title">꾸러기 게시판</h1>
+            <a href="/board/list">
+                <h1 class="main-title">꾸러기 게시판</h1>
+            </a>
             <button class="add-btn">새 글 쓰기</button>
+        </div>
+
+        <div class="top-section">
+            <!-- 검색창 영역 -->
+            <div class="search">
+                <form action="/board/list" method="get">
+                    
+                    <select class="form-select" name="type" id="search-type">
+                        <option value="title">제목</option>
+                        <option value="content">내용</option>
+                        <option value="writer">작성자</option>
+                        <option value="tc">제목+내용</option>
+                    </select>
+
+                    <input type="text" class="form-control" name="keyword" value="${s.keyword}">
+
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+
+                </form>
+            </div>
         </div>
 
         <div class="card-container">
@@ -110,7 +134,7 @@
                 <ul class="pagination pagination-lg pagination-custom">
                     <c:if test="${maker.page.pageNo != 1}">
                         <li class="page-item">
-                            <a class="page-link" href="/board/list?pageNo=${maker.getStartPage()}">시작으로</a>
+                            <a class="page-link" href="/board/list?pageNo=${maker.getStartPage()}&type=${s.type}&keyword=${s.keyword}">시작으로</a>
                         </li>
                     </c:if>
                     <c:if test="${maker.prev}">
@@ -119,18 +143,18 @@
 
                     <c:forEach var="i" begin="${maker.begin}" end="${maker.end}">
                         <li data-page-num="${i}" class="page-item">
-                            <a class="page-link" href="/board/list?pageNo=${i}">${i}</a>
+                            <a class="page-link" href="/board/list?pageNo=${i}&type=${s.type}&keyword=${s.keyword}">${i}</a>
                         </li>
                     </c:forEach>
 
 
                     <c:if test="${maker.next}">
-                        <li class="page-item"><a class="page-link" href="/board/list?pageNo=${maker.end + 1}">next</a></li>
+                        <li class="page-item"><a class="page-link" href="/board/list?pageNo=${maker.end + 1}&type=${s.type}&keyword=${s.keyword}">next</a></li>
                     </c:if>
 
                     <c:if test="${maker.getEndPage() != maker.page.pageNo}">
                         <li class="page-item">
-                            <a class="page-link" href="/board/list?pageNo=${maker.getEndPage()}">끝으로</a>
+                            <a class="page-link" href="/board/list?pageNo=${maker.getEndPage()}&type=${s.type}&keyword=${s.keyword}">끝으로</a>
                         </li>
                     </c:if>
                     
@@ -239,28 +263,21 @@
 
         }
 
+        // 셀렉트옵션 검색타입 태그 고정
+        function fixSearchOption() {
+            const $select = document.getElementById('search-type');
+
+            for (let $opt of [...$select.children]) {
+                if ($opt.value === '${s.type}') {
+                    $opt.setAttribute('selected', 'selected');
+                    break;
+                }
+            }
+        }
+
+
         appendPageActive();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        fixSearchOption();
 
 
     </script>
