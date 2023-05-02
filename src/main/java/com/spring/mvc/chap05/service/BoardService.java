@@ -2,9 +2,9 @@ package com.spring.mvc.chap05.service;
 
 import com.spring.mvc.chap05.dto.BoardListRequestDTO;
 import com.spring.mvc.chap05.dto.BoardWriteRequestDTO;
+import com.spring.mvc.chap05.dto.page.Search;
 import com.spring.mvc.chap05.entity.Board;
 import com.spring.mvc.chap05.repository.BoardMapper;
-import com.spring.mvc.chap05.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +20,8 @@ public class BoardService {
 
     // 중간 처리 기능 자유롭게 사용
 
-    public List<BoardListRequestDTO> findAll() {
-        return boardRepository.findAll().stream()
+    public List<BoardListRequestDTO> findAll(Search page) {
+        return boardRepository.findAll(page).stream()
                 .sorted(comparing(Board::getBoardNo).reversed())
                 .map(BoardListRequestDTO::new)
                 .collect(toList());
@@ -41,5 +41,9 @@ public class BoardService {
 
     public boolean write(BoardWriteRequestDTO dto) {
         return boardRepository.save(new Board(dto));
+    }
+
+    public int getCount(Search search) {
+        return boardRepository.count(search);
     }
 }
