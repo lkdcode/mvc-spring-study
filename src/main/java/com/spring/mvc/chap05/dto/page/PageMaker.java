@@ -90,5 +90,4 @@ public class PageMaker {
         this.next = end < realEnd;
     }
 
-
 }

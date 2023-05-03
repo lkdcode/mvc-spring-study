@@ -91,7 +91,6 @@ public class RestApiController {
     }
 
     @Getter
-    @Builder
     public class User {
         private String name;
 
