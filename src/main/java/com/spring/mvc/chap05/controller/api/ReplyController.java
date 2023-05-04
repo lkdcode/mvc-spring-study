@@ -1,6 +1,7 @@
 package com.spring.mvc.chap05.controller.api;
 
 import com.spring.mvc.chap05.dto.ReplyListResponseDTO;
+import com.spring.mvc.chap05.dto.ReplyModifyRequestDTO;
 import com.spring.mvc.chap05.dto.ReplyPostRequestDTO;
 import com.spring.mvc.chap05.dto.page.Page;
 import com.spring.mvc.chap05.service.ReplyService;
@@ -103,5 +104,36 @@ public class ReplyController {
         }
     }
 
+
+    @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}) // PUT, PATCH 둘 다 받음
+//    @PutMapping
+    private ResponseEntity<?> update(
+            @Validated @RequestBody ReplyModifyRequestDTO dto,
+            BindingResult result
+    ) {
+
+        log.info("update join : PUT {}", dto);
+
+        if (result.hasErrors()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(result.toString());
+        }
+
+        try {
+            ReplyListResponseDTO responseDTO = replyService.modify(dto);
+            return ResponseEntity
+                    .ok()
+                    .body(responseDTO);
+        } catch (Exception e) {
+            return ResponseEntity
+                    .internalServerError()
+                    .body(e.getMessage());
+        }
+
+    }
+
+    // @RequestMapping(value = "/v2/user/me", method = {RequestMethod.POST, RequestMethod.GET})
+    // URI + Mapping Method
 
 }

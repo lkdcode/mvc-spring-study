@@ -2,17 +2,15 @@ package com.spring.mvc.chap05.service;
 
 import com.spring.mvc.chap05.dto.ReplyDetailResponseDTO;
 import com.spring.mvc.chap05.dto.ReplyListResponseDTO;
+import com.spring.mvc.chap05.dto.ReplyModifyRequestDTO;
 import com.spring.mvc.chap05.dto.ReplyPostRequestDTO;
 import com.spring.mvc.chap05.dto.page.Page;
 import com.spring.mvc.chap05.dto.page.PageMaker;
 import com.spring.mvc.chap05.repository.ReplyMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PutMapping;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -73,14 +71,18 @@ public class ReplyService {
 
 
     // 댓글 수정 요청
-    @PutMapping("/{replyNo}")
-    public ResponseEntity<?> modify(
-            // DTO 새로 만드세요 검증 넣으세요
+    @Transactional
+    public ReplyListResponseDTO modify(
+            final ReplyModifyRequestDTO dto
+    ) throws Exception {
 
+        boolean flag = replyMapper.modify(dto.toEntity());
+        if (!flag) throw new SQLException();
 
-    ) {
-
-        return null;
+        return getList(
+                dto.getBno(),
+                new Page(1, 10)
+        );
     }
 
 }
