@@ -18,6 +18,8 @@ import java.sql.SQLException;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/replies")
 @Slf4j
+// 클라이언트의 접근을 어떤 app에서만 허용함
+@CrossOrigin(origins = {"http://127.0.0.1:5501/"})
 public class ReplyController {
     private final ReplyService replyService;
 
