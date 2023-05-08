@@ -1,11 +1,8 @@
-package com.spring.mvc.chap05.dto;
+package com.spring.mvc.chap05.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.spring.mvc.chap05.dto.page.PageMaker;
-import com.spring.mvc.chap05.entity.Reply;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Setter

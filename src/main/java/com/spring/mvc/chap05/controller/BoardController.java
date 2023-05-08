@@ -1,6 +1,6 @@
 package com.spring.mvc.chap05.controller;
 
-import com.spring.mvc.chap05.dto.BoardWriteRequestDTO;
+import com.spring.mvc.chap05.dto.request.BoardWriteRequestDTO;
 import com.spring.mvc.chap05.dto.page.PageMaker;
 import com.spring.mvc.chap05.dto.page.Search;
 import com.spring.mvc.chap05.service.BoardService;
@@ -37,7 +37,8 @@ public class BoardController {
 
     @GetMapping("/detail")
     public String detail(int boardNo, Model model, @ModelAttribute("s") Search search) {
-        model.addAttribute("board", boardService.findByBoardNo(boardNo));
+//        model.addAttribute("board", boardService.findByBoardNo(boardNo));
+        model.addAttribute("board", boardService.getDetail(boardNo));
 
         return "chap05/detail";
     }

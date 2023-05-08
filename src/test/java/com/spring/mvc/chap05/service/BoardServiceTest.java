@@ -1,15 +1,12 @@
 package com.spring.mvc.chap05.service;
 
-import com.spring.mvc.chap05.dto.BoardListRequestDTO;
-import com.spring.mvc.chap05.dto.BoardWriteRequestDTO;
-import com.spring.mvc.chap05.dto.page.Page;
+import com.spring.mvc.chap05.dto.request.BoardWriteRequestDTO;
 import com.spring.mvc.chap05.entity.Board;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 

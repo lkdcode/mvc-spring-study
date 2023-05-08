@@ -1,7 +1,8 @@
 package com.spring.mvc.chap05.service;
 
-import com.spring.mvc.chap05.dto.BoardListRequestDTO;
-import com.spring.mvc.chap05.dto.BoardWriteRequestDTO;
+import com.spring.mvc.chap05.dto.request.BoardDetailResponseDTO;
+import com.spring.mvc.chap05.dto.request.BoardListRequestDTO;
+import com.spring.mvc.chap05.dto.request.BoardWriteRequestDTO;
 import com.spring.mvc.chap05.dto.page.Search;
 import com.spring.mvc.chap05.entity.Board;
 import com.spring.mvc.chap05.repository.BoardMapper;
@@ -46,4 +47,16 @@ public class BoardService {
     public int getCount(Search search) {
         return boardRepository.count(search);
     }
+
+    public BoardDetailResponseDTO getDetail(int bno) {
+
+        Board board = boardRepository.findByBoardNo(bno);
+        // 조회수 상승 처리
+//        board.setViewCount(board.getViewCount() + 1);
+//        boardRepository.upViewCount(bno);
+
+        return new BoardDetailResponseDTO(board);
+    }
+
+
 }

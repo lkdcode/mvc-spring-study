@@ -1,8 +1,8 @@
 package com.spring.mvc.chap05.controller.api;
 
-import com.spring.mvc.chap05.dto.ReplyListResponseDTO;
-import com.spring.mvc.chap05.dto.ReplyModifyRequestDTO;
-import com.spring.mvc.chap05.dto.ReplyPostRequestDTO;
+import com.spring.mvc.chap05.dto.response.ReplyListResponseDTO;
+import com.spring.mvc.chap05.dto.request.ReplyModifyRequestDTO;
+import com.spring.mvc.chap05.dto.request.ReplyPostRequestDTO;
 import com.spring.mvc.chap05.dto.page.Page;
 import com.spring.mvc.chap05.service.ReplyService;
 import lombok.RequiredArgsConstructor;
@@ -11,8 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.sql.SQLException;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,7 +24,7 @@ public class ReplyController {
     // 댓글 목록 조회 요청
     // URL : /api/v1/replies/3/page/1
     //                3번/게시물 댓글목록/1페이지
-    @GetMapping("/{boardNo}/pages/{pageNo}")
+    @GetMapping("/{boardNo}/page/{pageNo}")
     public ResponseEntity<?> list(
             @PathVariable long boardNo,
             @PathVariable int pageNo
