@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"
+        integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <style>
+        button {
+            font-size: 5em;
+        }
+
+        .toast-bottom-center {
+            top: 45%;
+        }
+    </style>
+    <title>Insert title here</title>
+</head>
+
+<body>
+    <div>
+        <button id="error">error</button>
+        <button id="warning">warning</button>
+        <button id="success">success</button>
+        <button id="info">info</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+        integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript">
+        toastr.options = {
+            closeButton: true,
+            debug: false,
+            newestOnTop: true,
+            progressBar: true,
+            positionClass: "toast-bottom-center",
+            preventDuplicates: false,
+            onclick: null,
+            showDuration: "300",
+            hideDuration: "1000",
+            timeOut: "2000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut"
+        }
+
+
+        $('#error').on('click', function () {
+            toastr.error('alkjdasdjfklajdsflkjadsklfjadslk;fjalsdkfjlaskdfjkashdfkajsdhflkfhsfasdf');
+        });
+        $('#warning').on('click', function () {
+            toastr.warning('warning');
+        });
+        $('#success').on('click', function () {
+            toastr.success('success');
+        });
+        $('#info').on('click', function () {
+            toastr.info('info');
+        });
+        
+    </script>
+
+</body>
+
+</html>
