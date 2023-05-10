@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -23,8 +24,8 @@ public class SignUpRequestDTO {
     private String password;
     @NotBlank(message = "이메일을 입력하세요")
     private String email;
-
-    @NotBlank(message = "이을 입력하세요")
+    @Size(min = 2, max = 6, message = "이름은 2~6 글자 여야 합니다")
+    @NotBlank(message = "이름을 입력하세요")
     private String name;
 
     public Member toEntity() {
