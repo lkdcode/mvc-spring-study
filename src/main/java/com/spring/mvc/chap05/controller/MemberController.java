@@ -64,8 +64,15 @@ public class MemberController {
 
     // 로그인 양식 요청
     @GetMapping("/sign-in")
-    public String signIn() {
+    public String signIn(HttpServletRequest request) {
         log.info("/members/sign-in GET - forwarding to jsp");
+
+        // 요청 정보 헤더 안에는 Referer 라는 키가 있는데
+        // 여기 값은 이 페이지로 들어올 때 어디에서 왔는지에 대한
+        // URI 정보가 기록되어 있음
+
+        String referer = request.getHeader("referer");
+        log.info("referer : {}", referer);
 
         return "members/sign-in";
     }
@@ -112,6 +119,21 @@ public class MemberController {
         ra.addFlashAttribute("msg", result);
 
         return "redirect:/members/sign-in";
+    }
+
+
+    // 로그아웃 요청 처리
+
+    @GetMapping("/sign-out")
+
+    public String signOut(HttpSession session/* session 을 바로 담아 준다 */) {
+        // 세션에서 login 정보를 제거
+        session.removeAttribute("login");
+
+        // 세션을 아예 초기화 (세션 만료 시간 초기화)
+        session.invalidate();
+
+        return "redirect:/";
     }
 
 }
