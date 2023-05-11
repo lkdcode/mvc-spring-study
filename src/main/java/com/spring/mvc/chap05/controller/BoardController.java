@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/board")
@@ -21,9 +24,37 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("/list")
-    public String list(Search page, Model model) {
+    public String list(
+            Search page
+            , Model model
+            , HttpServletRequest request // 요청 정보
+    ) {
+        boolean flag = false;
+
+        // 세션을 확인
+        Object login = request.getSession().getAttribute("login");
+
+        if (login != null) {
+            flag = true;
+        }
+
+        // 쿠키 확인
+//        Cookie[] cookies = request.getCookies();
+//        for (Cookie c : cookies) {
+//            if (c.getName().equals("login")) {
+//                flag = true;
+//                break;
+//            }
+//        }
+
+        if (!flag) {
+            return "redirect:/members/sign-in";
+        }
+
+
         log.info("/board/list : GET");
         log.info("page : {}", page);
+
 
         // 페이징 알고리즘 작동
         PageMaker maker = new PageMaker(page, boardService.getCount(page));
