@@ -101,14 +101,14 @@
                             </p>
                         </div>
                     </section>
-                </a>
+
+                    <c:if>
                     <div class="card-btn-group">
-                        <a href="/board/delete?boardNo=${b.boardNo}">
-                        <button class="del-btn">
+                        <button class="del-btn" data-href="/board/delete?bno=${b.boardNo}">
                             <i class="fas fa-times"></i>
                         </button>
-                    </a>
-
+                    </div>
+                    </c:if>    
                     </div>
                 </div>
 
