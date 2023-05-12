@@ -18,6 +18,8 @@ public class Board {
     private String content; // 내용
     private int viewCount; // 조회수
     private LocalDateTime regDateTime; // 작성 일자 시간
+    private String account; // 작성자 계정명
+    private String writer;
 //    CREATE TABLE tbl_board (
 //	board_no INT(10) AUTO_INCREMENT PRIMARY KEY,
 //	title VARCHAR(80) NOT NULL,

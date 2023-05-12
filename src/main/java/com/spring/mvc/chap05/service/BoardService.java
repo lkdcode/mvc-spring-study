@@ -6,9 +6,11 @@ import com.spring.mvc.chap05.dto.request.BoardWriteRequestDTO;
 import com.spring.mvc.chap05.dto.page.Search;
 import com.spring.mvc.chap05.entity.Board;
 import com.spring.mvc.chap05.repository.BoardMapper;
+import com.spring.mvc.util.LoginUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 import static java.util.Comparator.*;
@@ -40,8 +42,11 @@ public class BoardService {
         return boardRepository.delete(boardNo);
     }
 
-    public boolean write(BoardWriteRequestDTO dto) {
-        return boardRepository.save(new Board(dto));
+    public boolean write(BoardWriteRequestDTO dto, HttpSession session) {
+        Board board = new Board(dto);
+        board.setAccount(LoginUtil.getCurrentLoginMemberAccount(session));
+
+        return boardRepository.save(board);
     }
 
     public int getCount(Search search) {

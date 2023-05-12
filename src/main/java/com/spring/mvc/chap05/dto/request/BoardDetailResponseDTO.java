@@ -14,11 +14,13 @@ public class BoardDetailResponseDTO {
     private final String title;
     private final String content;
     private final String date;
+    private final String writer;
 
     public BoardDetailResponseDTO(Board board) {
         this.boardNo = board.getBoardNo();
         this.title = board.getTitle();
         this.content = board.getContent();
+        this.writer = board.getWriter();
         this.date = BoardListResponseDTO.makePrettierDateString(board.getRegDateTime());
     }
 }

@@ -4,6 +4,7 @@ import com.spring.mvc.chap05.dto.request.BoardWriteRequestDTO;
 import com.spring.mvc.chap05.dto.page.PageMaker;
 import com.spring.mvc.chap05.dto.page.Search;
 import com.spring.mvc.chap05.service.BoardService;
+import com.spring.mvc.util.LoginUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequiredArgsConstructor
@@ -75,13 +77,18 @@ public class BoardController {
     }
 
     @GetMapping("/write")
-    public String write() {
+    public String write(HttpSession session) {
+
+        if (!LoginUtil.isLogin(session)) {
+            return "redirect:/members/sign-in";
+        }
+
         return "chap05/write";
     }
 
     @PostMapping("/write")
-    public String write(BoardWriteRequestDTO dto) {
-        boardService.write(dto);
+    public String write(BoardWriteRequestDTO dto, HttpSession session) {
+        boardService.write(dto, session);
         return "redirect:/board/list";
     }
 

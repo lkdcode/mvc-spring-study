@@ -5,6 +5,7 @@ import com.spring.mvc.chap05.dto.request.SignUpRequestDTO;
 import com.spring.mvc.chap05.dto.response.LoginUserResponseDTO;
 import com.spring.mvc.chap05.entity.Member;
 import com.spring.mvc.chap05.repository.MemberMapper;
+import com.spring.mvc.util.LoginUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -80,8 +81,8 @@ public class MemberService {
                 .build();
 
         // 그 정보를 세션에 저장
-        session.setAttribute("login", dto);
-        log.info("{}",dto);
+        session.setAttribute(LoginUtil.LOGIN_KEY, dto);
+        log.info("{}", dto);
 
 
         // 세션의 수명을 설정 (기본값 30분)
