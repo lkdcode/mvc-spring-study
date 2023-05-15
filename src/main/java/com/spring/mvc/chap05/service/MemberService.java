@@ -1,5 +1,6 @@
 package com.spring.mvc.chap05.service;
 
+import com.spring.mvc.chap05.dto.request.AutoLoginDTO;
 import com.spring.mvc.chap05.dto.request.LoginRequestDTO;
 import com.spring.mvc.chap05.dto.request.SignUpRequestDTO;
 import com.spring.mvc.chap05.dto.response.LoginUserResponseDTO;
@@ -11,10 +12,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import static com.spring.mvc.chap05.service.LoginResult.*;
+import static com.spring.mvc.util.LoginUtil.*;
 
 @RequiredArgsConstructor
 @Service
@@ -41,7 +46,9 @@ public class MemberService {
 
 
     // 로그인 검증
-    public LoginResult authenticate(LoginRequestDTO dto) {
+    public LoginResult authenticate(LoginRequestDTO dto
+            , HttpSession session
+            , HttpServletResponse response) {
         Member foundMember = memberMapper.findMember(dto.getAccount());
 
         if (foundMember == null) {
@@ -55,6 +62,36 @@ public class MemberService {
             log.info("{} - 비밀번호 틀렸음", dto.getPassword());
             return NO_PW;
         }
+
+        // 자동 로그인 체크 여부 확인
+        if (dto.isAutoLogin()) {
+            // 1. 쿠키 생성
+            // - 쿠키 값에 세션 아이디를 저장한다.
+            // - key : value = value 는 session ID
+            Cookie autoLoginCookie = new Cookie(AUTO_LOGIN_COOKIE, session.getId());
+
+
+            // 2. 쿠키 셋팅 - 수명이랑 사용 경로
+            int limitTime = 60 * 60 * 24 * 90;
+            autoLoginCookie.setMaxAge(limitTime);
+            autoLoginCookie.setPath("/"); // 전체 경로에서 사용할 것이다.
+
+            // 3. 쿠키를 클라이언트에 응답 전송
+            response.addCookie(autoLoginCookie);
+
+            // 4. DB 에도 쿠키에 저장된 값과 수명을 저장해야 한다
+            memberMapper.saveAutoLogin(
+                    AutoLoginDTO.builder()
+                            .account(dto.getAccount())
+                            // 년월일 시분초로 저장해야함.
+                            // 지금 시간 + 90일
+                            .limitTime(LocalDateTime.now().plusDays(90))
+                            .sessionId(session.getId())
+                            .build()
+            );
+
+        }
+
 
         log.info("{} 님 로그인 성공!", foundMember.getName());
         return SUCCESS;
@@ -78,10 +115,11 @@ public class MemberService {
                 .account(member.getAccount())
                 .nickName(member.getName())
                 .email(member.getEmail())
+                .auth(member.getAuth().toString())
                 .build();
 
         // 그 정보를 세션에 저장
-        session.setAttribute(LoginUtil.LOGIN_KEY, dto);
+        session.setAttribute(LOGIN_KEY, dto);
         log.info("{}", dto);
 
 

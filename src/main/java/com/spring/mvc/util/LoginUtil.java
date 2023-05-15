@@ -2,6 +2,7 @@ package com.spring.mvc.util;
 
 
 import com.spring.mvc.chap05.dto.response.LoginUserResponseDTO;
+import org.springframework.cglib.core.ProcessSwitchCallback;
 
 import javax.servlet.http.HttpSession;
 
@@ -10,6 +11,7 @@ public class LoginUtil {
 
     // 로그인 세션 키
     public static final String LOGIN_KEY = "login";
+    public static final String AUTO_LOGIN_COOKIE = "auto";
 
 
     // 로그인 여부 확인
@@ -21,6 +23,18 @@ public class LoginUtil {
     public static String getCurrentLoginMemberAccount(HttpSession session) {
         LoginUserResponseDTO loginUserInfo = (LoginUserResponseDTO) session.getAttribute(LOGIN_KEY);
         return loginUserInfo.getAccount();
+    }
+
+    // 관리자인지 확인해주는 메서드
+    public static boolean isAdmin(HttpSession session) {
+        LoginUserResponseDTO loginUser =
+                (LoginUserResponseDTO) session.getAttribute(LOGIN_KEY);
+        return loginUser.getAuth().equals("ADMIN");
+    }
+
+
+    public static boolean isMine(HttpSession session, String targetAccount) {
+        return targetAccount.equals(getCurrentLoginMemberAccount(session));
     }
 
 
