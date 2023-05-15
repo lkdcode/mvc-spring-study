@@ -42,7 +42,8 @@
             account,
             name,
             email,
-            auth
+            auth,
+            limit_time
         FROM tbl_member
         WHERE session_id = #{sessionId}
     </select>

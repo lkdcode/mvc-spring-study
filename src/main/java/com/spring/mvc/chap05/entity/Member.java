@@ -18,4 +18,5 @@ public class Member {
     private String email;
     private Auth auth;
     private LocalDateTime rageDate;
+    private LocalDateTime limitTime;
 }

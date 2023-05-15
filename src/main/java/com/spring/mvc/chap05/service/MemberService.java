@@ -11,8 +11,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
@@ -130,5 +132,28 @@ public class MemberService {
     // 멤버 정보를 가져오는 서비스기능
     public Member getMember(String account) {
         return memberMapper.findMember(account);
+    }
+
+    public void autoLoginClear(HttpServletRequest request, HttpServletResponse response) {
+        // 자동 로그인 해제하는 방법
+        // 1. 자동 로그인 쿠키를 가져온다
+        Cookie c = WebUtils.getCookie(request, AUTO_LOGIN_COOKIE);
+
+        // 2.
+        // -> 쿠키의 수명을 0초로 만들어서 다시 클라이언트에게 응답
+        if (c != null) {
+            c.setMaxAge(0);
+            response.addCookie(c);
+        }
+
+        // 3. 데이터 베이스에서도 자동로그인을 해제한다.
+        memberMapper.saveAutoLogin(
+                AutoLoginDTO.builder()
+                        .sessionId("none")
+                        .limitTime(LocalDateTime.now())
+                        .account(LoginUtil.getCurrentLoginMemberAccount(request.getSession()))
+                        .build()
+        );
+
     }
 }
