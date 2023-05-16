@@ -33,6 +33,9 @@ public class ReplyModifyRequestDTO {
     // 수정 텍스트
 
     public Reply toEntity() {
+        @NotNull
+        String test = "";
+
         return Reply.builder()
                 .replyText(this.text)
                 .boardNo(this.bno)

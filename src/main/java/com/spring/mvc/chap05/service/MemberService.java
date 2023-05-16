@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 import static com.spring.mvc.chap05.service.LoginResult.*;
 import static com.spring.mvc.util.LoginUtil.*;
@@ -31,14 +30,23 @@ public class MemberService {
     private final PasswordEncoder encoder;
 
     // 회원 가입 처리 서비스
-    public boolean join(final SignUpRequestDTO dto) {
+    public boolean join(
+            final SignUpRequestDTO dto,
+            final String savePath) {
 
         // dto 를 entity 로 변환
+        Member member = Member.builder()
+                .account(dto.getAccount())
+                .email(dto.getEmail())
+                .name(dto.getName())
+                .password(dto.getPassword())
+                .profileImage(savePath)
+                .build();
 
         // 매퍼에게 회원정보 전달해서 저장 명령리
-        dto.setPassword(encoder.encode(dto.getPassword()));
+        member.setPassword(encoder.encode(dto.getPassword()));
 
-        return memberMapper.save(dto.toEntity());
+        return memberMapper.save(member);
     }
 
     // 중복 검사 서비스 처리
@@ -94,7 +102,6 @@ public class MemberService {
 
         }
 
-
         log.info("{} 님 로그인 성공!", foundMember.getName());
         return SUCCESS;
     }
@@ -118,12 +125,12 @@ public class MemberService {
                 .nickName(member.getName())
                 .email(member.getEmail())
                 .auth(member.getAuth().toString())
+                .profile(member.getProfileImage())
                 .build();
 
         // 그 정보를 세션에 저장
         session.setAttribute(LOGIN_KEY, dto);
         log.info("{}", dto);
-
 
         // 세션의 수명을 설정 (기본값 30분)
         session.setMaxInactiveInterval(60 * 60); // 1 시간
@@ -143,6 +150,7 @@ public class MemberService {
         // -> 쿠키의 수명을 0초로 만들어서 다시 클라이언트에게 응답
         if (c != null) {
             c.setMaxAge(0);
+            c.setPath("/");
             response.addCookie(c);
         }
 

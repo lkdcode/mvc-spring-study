@@ -3,17 +3,14 @@ package com.spring.mvc.config;
 
 // 다양한 인터셉터에 관련 설정을 등록하는 클래스
 
-import com.spring.mvc.chap05.entity.Board;
 import com.spring.mvc.interceptor.AfterLoginInterceptor;
 import com.spring.mvc.interceptor.AutoLoginInterceptor;
 import com.spring.mvc.interceptor.BoardInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
@@ -24,7 +21,6 @@ public class InterceptorConfig implements WebMvcConfigurer {
     private final AutoLoginInterceptor autoLoginInterceptor;
 
     // 인터셉터 설정 등록
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         WebMvcConfigurer.super.addInterceptors(registry);
@@ -41,18 +37,10 @@ public class InterceptorConfig implements WebMvcConfigurer {
         ;
 
         // 자동 로그인 인터셉터 설정
+        // 모든 페이지에 대해서 자동 로그인 검사를 하기 위해 "/**"
         registry.addInterceptor(autoLoginInterceptor)
                 .addPathPatterns("/**")
         ;
     }
-
-
-    //
-
-    //
-
-    //
-
-    //
 
 }
