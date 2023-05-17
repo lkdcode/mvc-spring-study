@@ -1,5 +1,6 @@
 package com.spring.mvc.util.upload;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 public class FileUtil {
 
     /*
@@ -46,6 +48,7 @@ public class FileUtil {
         // fullPath = d:/abc/upload/2023/05/16/asdf.jpg
         // rootPaht = d:/abc/upload/
 
+        log.info("{}, {}", rootPath);
         return fullPath.replace(rootPath, "");
     }
 

@@ -21,12 +21,14 @@ public class BoardListRequestDTO {
     private String shortContent;
     private String date;
     private int viewCount;
+    private String account;
 
     public BoardListRequestDTO(Board board) {
         this.boardNo = board.getBoardNo();
         this.shortTitle = changeString(board.getTitle(), TITLE_SIZE);
         this.shortContent = changeString(board.getContent(), CONTENT_SIZE);
         this.date = board.getRegDateTime().format(DateTimeFormatter.ofPattern(TIME_FORMAT));
+        this.account = board.getAccount();
     }
 
     private String changeString(String text, int size) {
