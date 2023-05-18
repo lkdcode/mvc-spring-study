@@ -1,6 +1,9 @@
 package com.spring.mvc.chap05.service;
 
 
+import com.spring.mvc.chap05.dto.request.SignUpRequestDTO;
+import com.spring.mvc.chap05.dto.sns.KakaoUserDTO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -12,7 +15,10 @@ import java.util.Map;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class SnsLoginService {
+
+    private final MemberService memberService;
 
     // 카카오 로그인 처리
     public void kakaoService(Map<String, String> requestMap) {
@@ -21,10 +27,23 @@ public class SnsLoginService {
         log.info("token : {}", accessToken);
 
         // 토큰을 통해 사용자 정보 가져오기
-        getKakaoUserInfo(accessToken);
+        KakaoUserDTO kakaoUserInfo = getKakaoUserInfo(accessToken);
+
+        // 사용자 정보를 통해 우리 서비스 회원가입 진행
+        boolean isJoin = memberService.join(
+                SignUpRequestDTO.builder()
+                        .account(kakaoUserInfo.getKakaoAccount().getEmail())
+                        .email(kakaoUserInfo.getKakaoAccount().getEmail())
+                        .name(kakaoUserInfo.getKakaoAccount().getProfile().getNickname())
+                        .password("9999")
+                        .build()
+                , kakaoUserInfo.getKakaoAccount().getProfile().getProfileImageUrl()
+        );
+
+
     }
 
-    private void getKakaoUserInfo(String accessToken) {
+    private KakaoUserDTO getKakaoUserInfo(String accessToken) {
 
         String requestUri = "https://kapi.kakao.com/v2/user/me";
 
@@ -34,17 +53,18 @@ public class SnsLoginService {
 
         // 요청 보내기
         RestTemplate template = new RestTemplate();
-        ResponseEntity<Map> responseEntity = template.exchange(
+        ResponseEntity<KakaoUserDTO> responseEntity = template.exchange(
                 requestUri
                 , HttpMethod.GET
                 , new HttpEntity<>(headers)
-                , Map.class
+                , KakaoUserDTO.class
         );
 
         // 응답 바디 읽기
-        Map<String, Object> responseData = (Map<String, Object>) responseEntity.getBody();
+        KakaoUserDTO responseData = responseEntity.getBody();
         log.info("user profile : {}", responseData);
 
+        return responseData;
     }
 
     private String getKakaoAccessToken(Map<String, String> requestMap) {
