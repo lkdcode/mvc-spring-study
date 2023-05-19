@@ -20,4 +20,5 @@ public class Member {
     private LocalDateTime rageDate;
     private LocalDateTime limitTime;
     private String profileImage;
+    private LoginMethod loginMethod;
 }

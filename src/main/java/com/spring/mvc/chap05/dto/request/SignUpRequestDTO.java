@@ -1,6 +1,7 @@
 package com.spring.mvc.chap05.dto.request;
 
 
+import com.spring.mvc.chap05.entity.LoginMethod;
 import com.spring.mvc.chap05.entity.Member;
 import lombok.*;
 import org.springframework.validation.annotation.Validated;
@@ -32,6 +33,7 @@ public class SignUpRequestDTO {
     private String name;
 
     private MultipartFile profileImage;
+    private LoginMethod loginMethod;
 
     public Member toEntity() {
         return Member.builder()
